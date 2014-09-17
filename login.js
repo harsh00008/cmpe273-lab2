@@ -22,6 +22,15 @@ Login.prototype.isLoggedIn = function(sessionId) {
 	return sessionId in this.sessionMap;
 };
 
+Login.prototype.refreshSession = function(sessionId){
+	var newSessionId = new Date().getTime();
+	var _name = this.sessionMap[sessionId].name;
+	var _email = this.sessionMap[sessionId].email;	
+	this.sessionMap[newSessionId] = { name: _name, email: _email };
+	delete this.sessionMap[sessionId];
+	console.log('Refreshed:: Session ID refreshed: ' + newSessionId + ' for login::' + _email);    
+}
+
 /**
  * Create a new session id for the given user.
  */
@@ -30,10 +39,8 @@ Login.prototype.login = function(_name, _email) {
 	* Generate unique session id and set it into sessionMap like foo@bar.com
 	*/
 	var sessionId = new Date().getTime();
-	this.sessionMap[sessionId] = { name: _name, email: _email } 
-	
-	console.log('new session id ' + sessionId + ' for login::' + _email);
-	
+	this.sessionMap[sessionId] = { name: _name, email: _email };	
+	console.log('Welcome:: New session id is ' + sessionId + ' for login::' + _email);	
 	return sessionId;
 };
 
@@ -41,10 +48,8 @@ Login.prototype.login = function(_name, _email) {
  * Logout from the server
  */ 
 Login.prototype.logout = function(sessionId) {
-	console.log('logout::' + sessionId);
-   /*
-	* TODO: Remove the given sessionId from the sessionMap
-	*/
+	delete this.sessionMap[sessionId];
+	console.log('Logout::' + sessionId);
 };
 
 // Export the Login class
