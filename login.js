@@ -28,7 +28,8 @@ Login.prototype.refreshSession = function(sessionId){
 	var _email = this.sessionMap[sessionId].email;	
 	this.sessionMap[newSessionId] = { name: _name, email: _email };
 	delete this.sessionMap[sessionId];
-	console.log('Refreshed:: Session ID refreshed: ' + newSessionId + ' for login::' + _email);    
+	console.log('Refreshed:: Session ID refreshed: ' + newSessionId + ' for login::' + _email);   
+	return newSessionId; 
 }
 
 /**

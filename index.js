@@ -21,7 +21,6 @@ function main(request, response, next) {
 
 function get(request, response) {
 	var cookies = request.cookies;
-	console.log(cookies);
 	if ('session_id' in cookies) {
 		var sid = cookies['session_id'];
 		if ( login.isLoggedIn(sid) ) {
@@ -39,6 +38,7 @@ function post(request, response) {
 	var name = request.body.name;
     var email = request.body.email;
     var newSessionId = login.login(name, email);
+    response.setHeader('Set-Cookie', 'session_id=' + newSessionId);
 	response.end(login.hello(newSessionId));
 };
 
@@ -58,7 +58,8 @@ function put(request, response) {
 	console.log("PUT:: Attempting to re-generate.....");
 	var sessionId = request.cookies.session_id;
 	if( login.isLoggedIn(sessionId) ){
-		login.refreshSession(sessionId);
+		var newSessionId = login.refreshSession(sessionId);
+		response.setHeader('Set-Cookie', 'session_id=' + newSessionId);
 		response.end('Successfully refreshed the session!\n');
 		console.log("Session refreshed");
 	}else{
