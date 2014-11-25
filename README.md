@@ -1,7 +1,7 @@
-cmpe273-lab2
-============
+Login System using Node.js
+=============================
+A login system in Node.js using Connect with non-persistent storage.
 
-Node.JS with [Connect]
 
 ### To Install Dependencies ###
 
